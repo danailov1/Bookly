@@ -1,0 +1,139 @@
+/* Import the color variables from root */
+:root {
+    --bookly-black: #000000;
+    --bookly-dark: #2C3E50;
+    --bookly-accent: #E74C3C;
+    --bookly-red: #FF0000;
+    --bookly-light: #f8f9fa;
+    --bookly-white: #ffffff;
+    --bookly-gray: #ddd;
+  }
+  
+  .book-form-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .book-form {
+    background-color: var(--bookly-white);
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+  
+  .book-form h2 {
+    margin-bottom: 24px;
+    color: var(--bookly-dark);
+    font-weight: 600;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--bookly-black);
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--bookly-gray);
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.2s ease;
+  }
+  
+  .form-group input:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--bookly-accent);
+    box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.1);
+  }
+  
+  .form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  .image-preview {
+    margin-top: 12px;
+    border: 1px solid var(--bookly-gray);
+    padding: 12px;
+    border-radius: 6px;
+    background-color: var(--bookly-light);
+  }
+  
+  .image-preview img {
+    max-width: 100%;
+    max-height: 200px;
+    display: block;
+    margin: 0 auto;
+    border-radius: 4px;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  
+  .cancel-btn,
+  .submit-btn {
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+  }
+  
+  .cancel-btn {
+    background-color: var(--bookly-light);
+    border: 1px solid var(--bookly-gray);
+    color: var(--bookly-dark);
+  }
+  
+  .cancel-btn:hover:not(:disabled) {
+    background-color: var(--bookly-gray);
+  }
+  
+  .submit-btn {
+    background-color: var(--bookly-accent);
+    color: white;
+    border: none;
+  }
+  
+  .submit-btn:hover:not(:disabled) {
+    background-color: var(--bookly-dark);
+  }
+  
+  .submit-btn:disabled,
+  .cancel-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+  .error-message {
+    color: var(--bookly-red);
+    margin-bottom: 16px;
+    font-size: 14px;
+    font-weight: 500;
+  }

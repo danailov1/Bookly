@@ -1,0 +1,621 @@
+/* Import color variables */
+:root {
+    --bookly-black: #000000;
+    --bookly-dark: #2C3E50;
+    --bookly-accent: #E74C3C;
+    --bookly-red: #FF0000;
+    --bookly-light: #f8f9fa;
+    --bookly-white: #ffffff;
+    --bookly-gray: #ddd;
+  }
+  
+  /* Base BookCard styles */
+  .book-card {
+    position: relative;
+    background-color: var(--bookly-white);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    /* iOS smooth scrolling and momentum */
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .book-card.hidden {
+    display: none;
+  }
+  
+  .book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* iOS-specific styling */
+  @supports (-webkit-touch-callout: none) {
+    /* iOS device specific styles */
+    .book-card {
+      /* Add subtle iOS-style shadow */
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+      /* iOS-like rounded corners */
+      border-radius: 12px;
+    }
+    
+    /* Improve tap target sizes for iOS */
+    .card-actions button {
+      min-width: 36px;
+      min-height: 36px;
+    }
+    
+    /* iOS-style button appearance */
+    .delete-btn, .edit-btn, .expand-btn {
+      -webkit-appearance: none;
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+    }
+  }
+  
+  .book-cover {
+    height: 180px;
+    overflow: hidden;
+    background-color: var(--bookly-light);
+    cursor: pointer;
+  }
+  
+  .book-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Prevent image drag on iOS */
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+  }
+  
+  .placeholder-cover {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bookly-gray);
+  }
+  
+  .placeholder-cover span {
+    font-size: 48px;
+    color: #666;
+    font-weight: bold;
+  }
+  
+  .book-info {
+    padding: 15px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .book-title {
+    margin: 0 0 5px 0;
+    font-size: 16px;
+    color: var(--bookly-dark);
+  }
+  
+  .book-author {
+    color: #7f8c8d;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+  
+  .book-rating {
+    margin-top: auto;
+    color: #f39c12;
+    font-weight: 500;
+  }
+  
+  .book-description {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+    max-height: 100px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  }
+  
+  /* Card Actions */
+  .card-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 5px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .book-card:hover .card-actions {
+    opacity: 1;
+  }
+  
+  /* Always show actions on iOS touch devices */
+  @supports (-webkit-touch-callout: none) {
+    .card-actions {
+      opacity: 1;
+      /* Position actions at bottom for iOS for easier thumb access */
+      top: auto;
+      bottom: 10px;
+      right: 10px;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 5px;
+      border-radius: 18px;
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+    }
+  }
+  
+  .delete-btn,
+  .edit-btn,
+  .expand-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: none;
+    color: white;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .delete-btn {
+    background-color: rgba(231, 76, 60, 0.8);
+  }
+  
+  .delete-btn:hover {
+    background-color: var(--bookly-accent);
+  }
+  
+  .edit-btn {
+    background-color: rgba(44, 62, 80, 0.8);
+    font-size: 14px;
+  }
+  
+  .edit-btn:hover {
+    background-color: var(--bookly-dark);
+  }
+  
+  .expand-btn {
+    background-color: rgba(46, 204, 113, 0.8);
+    font-size: 16px;
+  }
+  
+  .expand-btn:hover {
+    background-color: #2ecc71;
+  }
+  
+  /* iOS specific button styles */
+  @supports (-webkit-touch-callout: none) {
+    .delete-btn, .edit-btn, .expand-btn {
+      transition: transform 0.2s;
+    }
+    
+    .delete-btn:active, 
+    .edit-btn:active, 
+    .expand-btn:active {
+      transform: scale(0.95);
+    }
+  }
+  
+  /* Expanded View */
+  .expanded-view-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    /* Smooth scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .expanded-view {
+    background-color: var(--bookly-white);
+    border-radius: 10px;
+    width: 90%;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+  }
+  
+  /* iOS specific modal styles */
+  @supports (-webkit-touch-callout: none) {
+    .expanded-view {
+      border-radius: 14px;
+      max-height: 85vh; /* Account for iOS safe areas */
+      /* iOS animation styles */
+      -webkit-transform: translateY(0);
+      transform: translateY(0);
+      transition: -webkit-transform 0.3s ease-out;
+      transition: transform 0.3s ease-out;
+    }
+    
+    /* Safe area insets for iPhone X and newer */
+    @supports (padding: max(0px)) {
+      .expanded-view {
+        padding-bottom: max(20px, env(safe-area-inset-bottom));
+        padding-top: max(20px, env(safe-area-inset-top));
+      }
+    }
+  }
+  
+  .close-expanded-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--bookly-accent);
+    color: white;
+    font-size: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 10;
+  }
+  
+  /* Larger close button for iOS */
+  @supports (-webkit-touch-callout: none) {
+    .close-expanded-btn {
+      width: 44px;
+      height: 44px;
+      top: 20px;
+      right: 20px;
+      -webkit-appearance: none;
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+    }
+  }
+  
+  .expanded-content {
+    display: flex;
+    padding: 40px;
+  }
+  
+  .expanded-cover {
+    flex: 0 0 40%;
+    max-height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  
+  .expanded-cover img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    /* Prevent image drag on iOS */
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+  }
+  
+  .placeholder-cover.large {
+    width: 80%;
+    height: 50vh;
+  }
+  
+  .expanded-info {
+    flex: 1;
+    padding-left: 40px;
+  }
+  
+  .expanded-info h2 {
+    margin-top: 0;
+    font-size: 24px;
+    color: var(--bookly-dark);
+  }
+  
+  .expanded-info h3 {
+    font-size: 18px;
+    color: #7f8c8d;
+    margin-bottom: 20px;
+  }
+  
+  .expanded-rating {
+    font-size: 18px;
+    color: #f39c12;
+    margin-bottom: 20px;
+  }
+  
+  .expanded-description h4 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: var(--bookly-dark);
+  }
+  
+  .expanded-description p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #555;
+  }
+  
+  .expanded-actions {
+    margin-top: 30px;
+    display: flex;
+    gap: 10px;
+  }
+  
+  .expanded-actions button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  /* iOS specific action buttons */
+  @supports (-webkit-touch-callout: none) {
+    .expanded-actions button {
+      border-radius: 10px;
+      font-weight: 500;
+      padding: 12px 24px;
+      -webkit-appearance: none;
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+    }
+  }
+  
+  .expanded-actions button:first-child {
+    background-color: var(--bookly-dark);
+    color: white;
+  }
+  
+  .expanded-actions button:last-child {
+    background-color: var(--bookly-accent);
+    color: white;
+  }
+  
+  /* Edit Form */
+  .edit-form-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .edit-form {
+    background-color: var(--bookly-white);
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  }
+  
+  /* iOS specific form styling */
+  @supports (-webkit-touch-callout: none) {
+    .edit-form {
+      border-radius: 14px;
+      padding: 30px 20px;
+      max-height: 85vh; /* Account for iOS keyboard */
+    }
+    
+    /* Safe area insets for iPhone X and newer */
+    @supports (padding: max(0px)) {
+      .edit-form {
+        padding-bottom: max(30px, env(safe-area-inset-bottom));
+      }
+    }
+  }
+  
+  .edit-form h2 {
+    margin-bottom: 20px;
+    color: var(--bookly-dark);
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--bookly-gray);
+    border-radius: 6px;
+    font-size: 16px;
+  }
+  
+  /* iOS specific form inputs */
+  @supports (-webkit-touch-callout: none) {
+    .form-group input,
+    .form-group textarea {
+      font-size: 16px; /* Prevent iOS zoom on focus */
+      padding: 12px;
+      border-radius: 10px;
+      -webkit-appearance: none;
+    }
+    
+    /* iOS style focus states */
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--bookly-accent);
+      box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.3);
+    }
+  }
+  
+  .form-group textarea {
+    resize: vertical;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  /* iOS specific button arrangement */
+  @supports (-webkit-touch-callout: none) {
+    .form-actions {
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+  }
+  
+  .cancel-btn,
+  .save-btn {
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  /* iOS style buttons */
+  @supports (-webkit-touch-callout: none) {
+    .cancel-btn,
+    .save-btn {
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 500;
+      min-width: 100px;
+      -webkit-appearance: none;
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+    }
+  }
+  
+  .cancel-btn {
+    background-color: var(--bookly-light);
+    border: 1px solid var(--bookly-gray);
+  }
+  
+  .save-btn {
+    background-color: var(--bookly-accent);
+    color: white;
+    border: none;
+  }
+  
+  .save-btn:hover {
+    background-color: var(--bookly-dark);
+  }
+  
+  /* Responsive adjustments for expanded view */
+  @media (max-width: 768px) {
+    .expanded-content {
+      flex-direction: column;
+      padding: 20px;
+    }
+    
+    .expanded-cover {
+      margin-bottom: 20px;
+    }
+    
+    .expanded-info {
+      padding-left: 0;
+    }
+    
+    /* iOS specific mobile improvements */
+    @supports (-webkit-touch-callout: none) {
+      /* Better spaced content for iOS mobile */
+      .expanded-content {
+        padding: 20px 20px 30px;
+      }
+      
+      .expanded-cover {
+        max-height: 40vh;
+      }
+      
+      .expanded-info h2 {
+        font-size: 22px;
+      }
+      
+      .expanded-info h3 {
+        font-size: 16px;
+      }
+      
+      /* Full width buttons on iOS mobile */
+      .expanded-actions {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+      }
+      
+      .expanded-actions button {
+        width: 100%;
+        padding: 14px 20px;
+      }
+      
+      /* Larger touch targets */
+      .form-group input,
+      .form-group textarea {
+        padding: 14px;
+      }
+      
+      /* Full width action buttons */
+      .form-actions {
+        flex-direction: column-reverse;
+        gap: 10px;
+      }
+      
+      .cancel-btn,
+      .save-btn {
+        width: 100%;
+        padding: 14px 20px;
+      }
+    }
+  }
+  
+  /* Additional iOS-specific enhancements for pulling down to close modals */
+  @supports (-webkit-touch-callout: none) {
+    .expanded-view::before,
+    .edit-form::before {
+      content: '';
+      width: 40px;
+      height: 5px;
+      background-color: #ccc;
+      border-radius: 3px;
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+    }
+    
+    /* Add bottom safe area for iOS devices with home indicator */
+    @media (max-width: 768px) {
+      .dashboard {
+        padding-bottom: env(safe-area-inset-bottom);
+      }
+      
+      .tabs {
+        padding-bottom: env(safe-area-inset-bottom, 0);
+      }
+      
+      /* Adjust tab content to account for safe areas */
+      .tab-content {
+        padding-bottom: calc(env(safe-area-inset-bottom) + 30px);
+      }
+    }
+  }

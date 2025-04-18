@@ -1,0 +1,301 @@
+/* Updated color variables matching logo colors */
+:root {
+    --bookly-black: #000000;
+    --bookly-dark: #2C3E50;
+    --bookly-accent: #E74C3C;
+    --bookly-red: #FF0000;
+    --bookly-light: #f8f9fa;
+    --bookly-white: #ffffff;
+    --bookly-gray: #ddd;
+  }
+  
+  .dashboard {
+    min-height: 100vh;
+    background-color: var(--bookly-light);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  
+  /* Modern header with logo */
+  .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    background-color: var(--bookly-white);
+    color: var(--bookly-black);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  
+  /* Logo container */
+  .logo-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo {
+    height: 40px;
+    margin-right: 12px;
+  }
+  
+  .dashboard-header h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--bookly-black);
+    letter-spacing: 0.5px;
+  }
+  
+  .sign-out-btn {
+    padding: 8px 16px;
+    background-color: transparent;
+    color: var(--bookly-dark);
+    border: 1px solid var(--bookly-dark);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+  }
+  
+  .sign-out-btn:hover {
+    background-color: var(--bookly-dark);
+    color: var(--bookly-white);
+  }
+  
+  /* Updated tabs with logo colors */
+  .tabs {
+    display: flex;
+    background-color: var(--bookly-white);
+    border-bottom: 1px solid var(--bookly-gray);
+    padding: 0 24px;
+  }
+  
+  .tab {
+    padding: 16px 24px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    border-bottom: 2px solid transparent;
+    color: var(--bookly-black);
+    font-weight: 500;
+    position: relative;
+  }
+  
+  .tab:hover {
+    color: var(--bookly-accent);
+  }
+  
+  .tab.active {
+    border-bottom: 2px solid var(--bookly-red);
+    color: var(--bookly-accent);
+    font-weight: 600;
+  }
+  
+  .tab-content {
+    padding: 30px 24px;
+  }
+  
+  .read-books, .wishlist {
+    background-color: var(--bookly-white);
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+  
+  .add-book-btn {
+    margin: 20px 0;
+    padding: 10px 20px;
+    background-color: var(--bookly-accent);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .add-book-btn:hover {
+    background-color: var(--bookly-dark);
+  }
+  
+  .add-book-btn::before {
+    content: "+";
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .books-container {
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 24px;
+  }
+  
+  /* Loading indicator */
+  .loading {
+    text-align: center;
+    padding: 40px;
+    color: var(--bookly-dark);
+    font-style: italic;
+  }
+  
+  /* Recommendations Section */
+  .recommendations {
+    margin-top: 40px;
+    background-color: var(--bookly-white);
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+  
+  .recommendations-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .toggle-recommendations-btn {
+    padding: 8px 16px;
+    background-color: var(--bookly-dark);
+    color: var(--bookly-white);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+  }
+  
+  .toggle-recommendations-btn:hover {
+    background-color: var(--bookly-accent);
+  }
+  
+  .recommendation-card {
+    background-color: var(--bookly-light);
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .recommendation-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .recommendation-cover {
+    width: 100%;
+    max-width: 120px;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    object-fit: cover;
+  }
+  
+  .no-cover {
+    width: 120px;
+    height: 180px;
+    background-color: var(--bookly-gray);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    color: var(--bookly-dark);
+    font-size: 14px;
+  }
+  
+  .recommendation-card h3 {
+    margin: 0 0 8px;
+    font-size: 16px;
+    color: var(--bookly-dark);
+  }
+  
+  .recommendation-card p {
+    margin: 0 0 4px;
+    font-size: 14px;
+    color: #7f8c8d;
+  }
+  
+  .error-message {
+    color: var(--bookly-red);
+    margin-bottom: 16px;
+    font-size: 14px;
+    text-align: center;
+  }
+  
+  .recommendation-controls {
+    margin-top: 24px;
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+  }
+  
+  .load-more-btn,
+  .show-less-btn {
+    padding: 10px 20px;
+    background-color: var(--bookly-accent);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+  }
+  
+  .load-more-btn:hover,
+  .show-less-btn:hover {
+    background-color: var(--bookly-dark);
+  }
+  
+  .load-more-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  @media (max-width: 768px) {
+    .books-container {
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px;
+    }
+    
+    .tabs {
+      flex-direction: column;
+      padding: 0;
+    }
+    
+    .tab {
+      width: 100%;
+      text-align: center;
+      padding: 12px 16px;
+    }
+    
+    .dashboard-header {
+      padding: 12px 16px;
+    }
+    
+    .logo {
+      height: 32px;
+    }
+    
+    .recommendations-header {
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .recommendation-cover,
+    .no-cover {
+      width: 100px;
+      height: 150px;
+    }
+  }
