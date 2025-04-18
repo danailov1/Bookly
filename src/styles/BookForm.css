@@ -1,325 +1,284 @@
 /* Import the color variables from root */
 :root {
-    --bookly-black: #000000;
-    --bookly-dark: #2C3E50;
-    --bookly-accent: #E74C3C;
-    --bookly-red: #FF0000;
-    --bookly-light: #f8f9fa;
-    --bookly-white: #ffffff;
-    --bookly-gray: #ddd;
-  }
-  
-  .book-form-overlay {
+  --bookly-black: #000000;
+  --bookly-dark: #2C3E50;
+  --bookly-accent: #E74C3C;
+  --bookly-red: #FF0000;
+  --bookly-light: #f8f9fa;
+  --bookly-white: #ffffff;
+  --bookly-gray: #ddd;
+}
+
+.book-form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.book-form {
+  background-color: var(--bookly-white);
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.book-form h2 {
+  margin-bottom: 24px;
+  color: var(--bookly-dark);
+  font-weight: 600;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--bookly-black);
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--bookly-gray);
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--bookly-accent);
+  box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.1);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.image-preview {
+  margin-top: 12px;
+  border: 1px solid var(--bookly-gray);
+  padding: 12px;
+  border-radius: 6px;
+  background-color: var(--bookly-light);
+}
+
+.image-preview img {
+  max-width: 100%;
+  max-height: 200px;
+  display: block;
+  margin: 0 auto;
+  border-radius: 4px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.cancel-btn,
+.submit-btn {
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.cancel-btn {
+  background-color: var(--bookly-light);
+  border: 1px solid var(--bookly-gray);
+  color: var(--bookly-dark);
+}
+
+.cancel-btn:hover:not(:disabled) {
+  background-color: var(--bookly-gray);
+}
+
+.submit-btn {
+  background-color: var(--bookly-accent);
+  color: white;
+  border: none;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: var(--bookly-dark);
+}
+
+.submit-btn:disabled,
+.cancel-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: var(--bookly-red);
+  margin-bottom: 16px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Enhanced iOS-specific styles for expanded view */
+.expanded-view-overlay {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.75);
+    background-color: rgba(0, 0, 0, 0.8);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    -webkit-backdrop-filter: blur(5px);
-    backdrop-filter: blur(5px);
-  }
-  
-  .book-form {
-    background-color: var(--bookly-white);
-    padding: 24px 20px;
-    border-radius: 14px;
-    width: 92%;
-    max-width: 500px;
-    max-height: 85vh;
-    overflow-y: auto;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     -webkit-overflow-scrolling: touch;
-    position: relative;
-  }
-  
-  /* Pull indicator for iOS */
-  .book-form::before {
-    content: '';
-    width: 40px;
-    height: 5px;
-    background-color: #ccc;
-    border-radius: 3px;
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  
-  .book-form h2 {
-    margin: 15px 0 24px 0;
-    color: var(--bookly-dark);
-    font-weight: 600;
-    font-size: 20px;
-    text-align: center;
-  }
-  
-  .form-group {
-    margin-bottom: 20px;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-    color: var(--bookly-dark);
-    font-size: 15px;
-  }
-  
-  .form-group input,
-  .form-group textarea {
-    width: 100%;
-    padding: 14px;
-    border: 1px solid var(--bookly-gray);
-    border-radius: 10px;
-    font-size: 16px;
-    -webkit-appearance: none;
-    transition: all 0.2s ease;
-  }
-  
-  .form-group input:focus,
-  .form-group textarea:focus {
-    outline: none;
-    border-color: var(--bookly-accent);
-    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
-  }
-  
-  .form-group textarea {
-    resize: vertical;
-    min-height: 100px;
-  }
-  
-  .image-preview {
-    margin-top: 12px;
-    border: 1px solid var(--bookly-gray);
-    padding: 12px;
-    border-radius: 10px;
-    background-color: var(--bookly-light);
-  }
-  
-  .image-preview img {
-    max-width: 100%;
-    max-height: 200px;
-    display: block;
-    margin: 0 auto;
-    border-radius: 8px;
-    -webkit-user-drag: none;
-    -webkit-user-select: none;
-  }
-  
-  /* iOS style file input */
-  input[type="file"] {
-    padding: 14px;
-    border: 1px solid var(--bookly-gray);
-    border-radius: 10px;
-    width: 100%;
-    background-color: var(--bookly-light);
-    font-size: 15px;
-  }
-  
-  .form-actions {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    margin-top: 30px;
-    padding-bottom: env(safe-area-inset-bottom, 15px);
-  }
-  
-  .cancel-btn,
-  .submit-btn {
-    padding: 15px 0;
-    border-radius: 12px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-weight: 600;
-    flex: 1;
-    -webkit-appearance: none;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-  }
-  
-  .cancel-btn {
-    background-color: var(--bookly-light);
-    border: 1px solid var(--bookly-gray);
-    color: var(--bookly-dark);
-  }
-  
-  .cancel-btn:active {
-    background-color: var(--bookly-gray);
-    transform: scale(0.98);
-  }
-  
-  .submit-btn {
-    background-color: var(--bookly-accent);
-    color: white;
-    border: none;
-  }
-  
-  .submit-btn:active:not(:disabled) {
-    background-color: var(--bookly-dark);
-    transform: scale(0.98);
-  }
-  
-  .submit-btn:disabled,
-  .cancel-btn:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-  }
-  
-  .error-message {
-    color: var(--bookly-red);
-    margin-bottom: 16px;
-    font-size: 14px;
-    font-weight: 500;
-    background-color: rgba(255, 0, 0, 0.08);
-    padding: 10px 12px;
-    border-radius: 8px;
-    text-align: center;
-  }
-  
-  /* Styles for expanded view like in the screenshot */
-  .expanded-view-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.85);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    -webkit-backdrop-filter: blur(5px);
-    backdrop-filter: blur(5px);
   }
   
   .expanded-view {
     background-color: var(--bookly-white);
-    border-radius: 14px;
+    border-radius: 10px;
     width: 90%;
-    max-width: 500px;
-    max-height: 85vh;
+    max-width: 900px;
+    max-height: 85vh; /* Reduced from 90vh for iOS */
     overflow-y: auto;
     position: relative;
-    padding: 20px;
-    padding-top: 30px;
-    -webkit-overflow-scrolling: touch;
+    margin: 20px auto;
   }
   
-  .expanded-view::before {
-    content: '';
-    width: 40px;
-    height: 5px;
-    background-color: #ccc;
-    border-radius: 3px;
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  
-  .expanded-view h2 {
-    margin: 0 0 5px 0;
-    font-size: 24px;
-    color: var(--bookly-black);
-    text-align: center;
-  }
-  
-  .expanded-view h3 {
-    font-size: 18px;
-    color: #7f8c8d;
-    margin-bottom: 20px;
-    text-align: center;
-    font-weight: normal;
-  }
-  
-  .expanded-rating {
-    font-size: 24px;
-    color: #f39c12;
-    margin: 25px 0;
-    text-align: center;
-    font-weight: bold;
-  }
-  
-  .expanded-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 30px;
-    padding-bottom: env(safe-area-inset-bottom, 20px);
-  }
-  
-  .expanded-actions button {
-    width: 100%;
-    padding: 16px 0;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 600;
-    -webkit-appearance: none;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-  }
-  
-  .expanded-actions button:first-child {
-    background-color: var(--bookly-dark);
-    color: white;
-    border: none;
-  }
-  
-  .expanded-actions button:last-child {
-    background-color: var(--bookly-accent);
-    color: white;
-    border: none;
-  }
-  
-  /* Fix for iOS keyboard appearing */
+  /* iOS specific modal styles */
   @supports (-webkit-touch-callout: none) {
-    .book-form, .expanded-view {
-      padding-bottom: 30px;
+    .expanded-view {
+      border-radius: 14px;
+      max-height: 80vh; /* Even more reduced for iOS */
+      padding-bottom: 20px;
+      transform: translateY(0);
+      transition: transform 0.3s ease-out;
+    }
+  
+    /* Safe area insets for iPhone X and newer */
+    @supports (padding: max(0px)) {
+      .expanded-view {
+        padding-bottom: max(20px, env(safe-area-inset-bottom));
+        padding-top: max(20px, env(safe-area-inset-top));
+      }
     }
     
-    @supports (padding: max(0px)) {
-      .book-form, .expanded-view {
-        padding-bottom: max(30px, env(safe-area-inset-bottom));
-      }
-      
-      .form-actions, .expanded-actions {
-        padding-bottom: max(0px, env(safe-area-inset-bottom));
-      }
+    /* Improve expanded content layout for iOS */
+    .expanded-content {
+      display: flex;
+      flex-direction: column;
+      padding: 30px 20px;
+    }
+  
+    .expanded-cover {
+      max-height: 30vh;
+      margin-bottom: 25px;
+    }
+  
+    .expanded-info {
+      padding-left: 0;
+    }
+  
+    .expanded-info h2 {
+      font-size: 22px;
+      margin-top: 0;
+      color: var(--bookly-dark);
+    }
+  
+    .expanded-info h3 {
+      font-size: 16px;
+      color: #7f8c8d;
+      margin-bottom: 20px;
+    }
+  
+    .expanded-rating {
+      font-size: 18px;
+      color: #f39c12;
+      margin-bottom: 20px;
+    }
+  
+    .expanded-description {
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+  
+    .expanded-description h4 {
+      font-size: 16px;
+      margin-bottom: 8px;
+      color: var(--bookly-dark);
+    }
+  
+    .expanded-description p {
+      font-size: 16px;
+      line-height: 1.5;
+      color: #555;
+    }
+  
+    /* Full width buttons on iOS */
+    .expanded-actions {
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      margin-top: 20px;
+    }
+  
+    .expanded-actions button {
+      width: 100%;
+      padding: 14px 20px;
+      margin-bottom: 8px;
+      border-radius: 10px;
+      font-weight: 500;
+    }
+  
+    /* Larger close button for iOS */
+    .close-expanded-btn {
+      width: 44px;
+      height: 44px;
+      top: 15px;
+      right: 15px;
+      font-size: 24px;
+      -webkit-appearance: none;
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+      background-color: var(--bookly-accent);
+      z-index: 20;
     }
   }
   
-  /* For visual feedback when buttons are pressed on iOS */
-  .expanded-actions button:active {
-    transform: scale(0.98);
-    opacity: 0.9;
-  }
+  /* Improved book placeholder on iOS */
+  @supports (-webkit-touch-callout: none) {
+    .placeholder-cover.large {
+      width: 70%;
+      height: 25vh;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: var(--bookly-gray);
+      border-radius: 8px;
+    }
   
-  /* Make sure the close button doesn't get covered by the notch */
-  .close-expanded-btn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    border: none;
-    background-color: var(--bookly-accent);
-    color: white;
-    font-size: 24px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    z-index: 10;
-    -webkit-appearance: none;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-  }
-  
-  .close-expanded-btn:active {
-    transform: scale(0.95);
-    background-color: var(--bookly-dark);
+    .placeholder-cover.large span {
+      font-size: 60px;
+      color: #666;
+      font-weight: bold;
+    }
   }
