@@ -95,15 +95,18 @@
   }
   
   .book-title {
-    margin: 0 0 5px 0;
+    margin: 0 0 2px 0; /* Reduce bottom margin to bring author closer */
     font-size: 16px;
     color: var(--bookly-dark);
+    line-height: 1.2; /* Tighter line height */
   }
   
   .book-author {
     color: #7f8c8d;
+    margin-top: 0; /* Remove top margin */
     margin-bottom: 10px;
     font-size: 14px;
+    line-height: 1.2; /* Consistent line height */
   }
   
   .book-rating {
@@ -319,14 +322,18 @@
   
   .expanded-info h2 {
     margin-top: 0;
+    margin-bottom: 5px; /* Reduce space between title and author */
     font-size: 24px;
     color: var(--bookly-dark);
+    line-height: 1.2;
   }
   
   .expanded-info h3 {
     font-size: 18px;
     color: #7f8c8d;
+    margin-top: 0; /* Remove top margin */
     margin-bottom: 20px;
+    line-height: 1.3;
   }
   
   .expanded-rating {
@@ -622,145 +629,145 @@
 
   /* Enhanced iOS-specific styles for expanded view */
 .expanded-view-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  -webkit-overflow-scrolling: touch;
+}
+
+.expanded-view {
+  background-color: var(--bookly-white);
+  border-radius: 10px;
+  width: 90%;
+  max-width: 900px;
+  max-height: 85vh; /* Reduced from 90vh for iOS */
+  overflow-y: auto;
+  position: relative;
+  margin: 20px auto;
+}
+
+/* iOS specific modal styles */
+@supports (-webkit-touch-callout: none) {
+  .expanded-view {
+    border-radius: 14px;
+    max-height: 80vh; /* Even more reduced for iOS */
+    padding-bottom: 20px;
+    transform: translateY(0);
+    transition: transform 0.3s ease-out;
+  }
+
+  /* Safe area insets for iPhone X and newer */
+  @supports (padding: max(0px)) {
+    .expanded-view {
+      padding-bottom: max(20px, env(safe-area-inset-bottom));
+      padding-top: max(20px, env(safe-area-inset-top));
+    }
+  }
+  
+  /* Improve expanded content layout for iOS */
+  .expanded-content {
+    display: flex;
+    flex-direction: column;
+    padding: 30px 20px;
+  }
+
+  .expanded-cover {
+    max-height: 30vh;
+    margin-bottom: 25px;
+  }
+
+  .expanded-info {
+    padding-left: 0;
+  }
+
+  .expanded-info h2 {
+    font-size: 22px;
+    margin-top: 0;
+    color: var(--bookly-dark);
+  }
+
+  .expanded-info h3 {
+    font-size: 16px;
+    color: #7f8c8d;
+    margin-bottom: 20px;
+  }
+
+  .expanded-rating {
+    font-size: 18px;
+    color: #f39c12;
+    margin-bottom: 20px;
+  }
+
+  .expanded-description {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+
+  .expanded-description h4 {
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: var(--bookly-dark);
+  }
+
+  .expanded-description p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #555;
+  }
+
+  /* Full width buttons on iOS */
+  .expanded-actions {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .expanded-actions button {
+    width: 100%;
+    padding: 14px 20px;
+    margin-bottom: 8px;
+    border-radius: 10px;
+    font-weight: 500;
+  }
+
+  /* Larger close button for iOS */
+  .close-expanded-btn {
+    width: 44px;
+    height: 44px;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    background-color: var(--bookly-accent);
+    z-index: 20;
+  }
+}
+
+/* Improved book placeholder on iOS */
+@supports (-webkit-touch-callout: none) {
+  .placeholder-cover.large {
+    width: 70%;
+    height: 25vh;
+    margin: 0 auto;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
-    -webkit-overflow-scrolling: touch;
+    background-color: var(--bookly-gray);
+    border-radius: 8px;
   }
-  
-  .expanded-view {
-    background-color: var(--bookly-white);
-    border-radius: 10px;
-    width: 90%;
-    max-width: 900px;
-    max-height: 85vh; /* Reduced from 90vh for iOS */
-    overflow-y: auto;
-    position: relative;
-    margin: 20px auto;
+
+  .placeholder-cover.large span {
+    font-size: 60px;
+    color: #666;
+    font-weight: bold;
   }
-  
-  /* iOS specific modal styles */
-  @supports (-webkit-touch-callout: none) {
-    .expanded-view {
-      border-radius: 14px;
-      max-height: 80vh; /* Even more reduced for iOS */
-      padding-bottom: 20px;
-      transform: translateY(0);
-      transition: transform 0.3s ease-out;
-    }
-  
-    /* Safe area insets for iPhone X and newer */
-    @supports (padding: max(0px)) {
-      .expanded-view {
-        padding-bottom: max(20px, env(safe-area-inset-bottom));
-        padding-top: max(20px, env(safe-area-inset-top));
-      }
-    }
-    
-    /* Improve expanded content layout for iOS */
-    .expanded-content {
-      display: flex;
-      flex-direction: column;
-      padding: 30px 20px;
-    }
-  
-    .expanded-cover {
-      max-height: 30vh;
-      margin-bottom: 25px;
-    }
-  
-    .expanded-info {
-      padding-left: 0;
-    }
-  
-    .expanded-info h2 {
-      font-size: 22px;
-      margin-top: 0;
-      color: var(--bookly-dark);
-    }
-  
-    .expanded-info h3 {
-      font-size: 16px;
-      color: #7f8c8d;
-      margin-bottom: 20px;
-    }
-  
-    .expanded-rating {
-      font-size: 18px;
-      color: #f39c12;
-      margin-bottom: 20px;
-    }
-  
-    .expanded-description {
-      margin-top: 10px;
-      margin-bottom: 20px;
-    }
-  
-    .expanded-description h4 {
-      font-size: 16px;
-      margin-bottom: 8px;
-      color: var(--bookly-dark);
-    }
-  
-    .expanded-description p {
-      font-size: 16px;
-      line-height: 1.5;
-      color: #555;
-    }
-  
-    /* Full width buttons on iOS */
-    .expanded-actions {
-      flex-direction: column;
-      gap: 10px;
-      width: 100%;
-      margin-top: 20px;
-    }
-  
-    .expanded-actions button {
-      width: 100%;
-      padding: 14px 20px;
-      margin-bottom: 8px;
-      border-radius: 10px;
-      font-weight: 500;
-    }
-  
-    /* Larger close button for iOS */
-    .close-expanded-btn {
-      width: 44px;
-      height: 44px;
-      top: 15px;
-      right: 15px;
-      font-size: 24px;
-      -webkit-appearance: none;
-      -webkit-tap-highlight-color: rgba(0,0,0,0);
-      background-color: var(--bookly-accent);
-      z-index: 20;
-    }
-  }
-  
-  /* Improved book placeholder on iOS */
-  @supports (-webkit-touch-callout: none) {
-    .placeholder-cover.large {
-      width: 70%;
-      height: 25vh;
-      margin: 0 auto;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: var(--bookly-gray);
-      border-radius: 8px;
-    }
-  
-    .placeholder-cover.large span {
-      font-size: 60px;
-      color: #666;
-      font-weight: bold;
-    }
-  }
+}

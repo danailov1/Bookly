@@ -1,6 +1,4 @@
-//BookCard.js
-
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../services/firebase';
 import '../../styles/BookCard.css';
@@ -29,7 +27,6 @@ const BookCard = ({ book, onDelete }) => {
     const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     isIOS.current = iOS;
     
-    // Add iOS-specific meta tags if needed
     if (iOS) {
       document.documentElement.style.setProperty('--safe-area-inset-top', 'env(safe-area-inset-top)');
       document.documentElement.style.setProperty('--safe-area-inset-bottom', 'env(safe-area-inset-bottom)');
@@ -148,7 +145,7 @@ const BookCard = ({ book, onDelete }) => {
     }
   };
   
-  const handleTouchEnd = (e) => {
+  const handleTouchEnd = () => {
     touchStartY.current = null;
     touchEndY.current = null;
   };
