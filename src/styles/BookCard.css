@@ -104,11 +104,13 @@
   .book-author {
     color: #7f8c8d;
     margin-top: 0; /* Remove top margin */
+    text-align: left;
     margin-bottom: 10px;
     font-size: 14px;
     line-height: 1.2; /* Consistent line height */
   }
   
+
   .book-rating {
     margin-top: auto;
     color: #f39c12;
