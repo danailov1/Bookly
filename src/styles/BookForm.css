@@ -15,28 +15,47 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.75);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
   }
   
   .book-form {
     background-color: var(--bookly-white);
-    padding: 30px;
-    border-radius: 10px;
-    width: 90%;
+    padding: 24px 20px;
+    border-radius: 14px;
+    width: 92%;
     max-width: 500px;
-    max-height: 90vh;
+    max-height: 85vh;
     overflow-y: auto;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+  }
+  
+  /* Pull indicator for iOS */
+  .book-form::before {
+    content: '';
+    width: 40px;
+    height: 5px;
+    background-color: #ccc;
+    border-radius: 3px;
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
   }
   
   .book-form h2 {
-    margin-bottom: 24px;
+    margin: 15px 0 24px 0;
     color: var(--bookly-dark);
     font-weight: 600;
+    font-size: 20px;
+    text-align: center;
   }
   
   .form-group {
@@ -47,24 +66,26 @@
     display: block;
     margin-bottom: 8px;
     font-weight: 500;
-    color: var(--bookly-black);
+    color: var(--bookly-dark);
+    font-size: 15px;
   }
   
   .form-group input,
   .form-group textarea {
     width: 100%;
-    padding: 12px;
+    padding: 14px;
     border: 1px solid var(--bookly-gray);
-    border-radius: 6px;
+    border-radius: 10px;
     font-size: 16px;
-    transition: border-color 0.2s ease;
+    -webkit-appearance: none;
+    transition: all 0.2s ease;
   }
   
   .form-group input:focus,
   .form-group textarea:focus {
     outline: none;
     border-color: var(--bookly-accent);
-    box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.1);
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
   }
   
   .form-group textarea {
@@ -76,7 +97,7 @@
     margin-top: 12px;
     border: 1px solid var(--bookly-gray);
     padding: 12px;
-    border-radius: 6px;
+    border-radius: 10px;
     background-color: var(--bookly-light);
   }
   
@@ -85,24 +106,40 @@
     max-height: 200px;
     display: block;
     margin: 0 auto;
-    border-radius: 4px;
+    border-radius: 8px;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+  }
+  
+  /* iOS style file input */
+  input[type="file"] {
+    padding: 14px;
+    border: 1px solid var(--bookly-gray);
+    border-radius: 10px;
+    width: 100%;
+    background-color: var(--bookly-light);
+    font-size: 15px;
   }
   
   .form-actions {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     gap: 12px;
-    margin-top: 24px;
+    margin-top: 30px;
+    padding-bottom: env(safe-area-inset-bottom, 15px);
   }
   
   .cancel-btn,
   .submit-btn {
-    padding: 10px 20px;
-    border-radius: 6px;
+    padding: 15px 0;
+    border-radius: 12px;
     font-size: 16px;
     cursor: pointer;
     transition: all 0.2s ease;
-    font-weight: 500;
+    font-weight: 600;
+    flex: 1;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
   }
   
   .cancel-btn {
@@ -111,8 +148,9 @@
     color: var(--bookly-dark);
   }
   
-  .cancel-btn:hover:not(:disabled) {
+  .cancel-btn:active {
     background-color: var(--bookly-gray);
+    transform: scale(0.98);
   }
   
   .submit-btn {
@@ -121,8 +159,9 @@
     border: none;
   }
   
-  .submit-btn:hover:not(:disabled) {
+  .submit-btn:active:not(:disabled) {
     background-color: var(--bookly-dark);
+    transform: scale(0.98);
   }
   
   .submit-btn:disabled,
@@ -136,4 +175,151 @@
     margin-bottom: 16px;
     font-size: 14px;
     font-weight: 500;
+    background-color: rgba(255, 0, 0, 0.08);
+    padding: 10px 12px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  /* Styles for expanded view like in the screenshot */
+  .expanded-view-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+  }
+  
+  .expanded-view {
+    background-color: var(--bookly-white);
+    border-radius: 14px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    padding: 20px;
+    padding-top: 30px;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .expanded-view::before {
+    content: '';
+    width: 40px;
+    height: 5px;
+    background-color: #ccc;
+    border-radius: 3px;
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .expanded-view h2 {
+    margin: 0 0 5px 0;
+    font-size: 24px;
+    color: var(--bookly-black);
+    text-align: center;
+  }
+  
+  .expanded-view h3 {
+    font-size: 18px;
+    color: #7f8c8d;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: normal;
+  }
+  
+  .expanded-rating {
+    font-size: 24px;
+    color: #f39c12;
+    margin: 25px 0;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .expanded-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 30px;
+    padding-bottom: env(safe-area-inset-bottom, 20px);
+  }
+  
+  .expanded-actions button {
+    width: 100%;
+    padding: 16px 0;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+  }
+  
+  .expanded-actions button:first-child {
+    background-color: var(--bookly-dark);
+    color: white;
+    border: none;
+  }
+  
+  .expanded-actions button:last-child {
+    background-color: var(--bookly-accent);
+    color: white;
+    border: none;
+  }
+  
+  /* Fix for iOS keyboard appearing */
+  @supports (-webkit-touch-callout: none) {
+    .book-form, .expanded-view {
+      padding-bottom: 30px;
+    }
+    
+    @supports (padding: max(0px)) {
+      .book-form, .expanded-view {
+        padding-bottom: max(30px, env(safe-area-inset-bottom));
+      }
+      
+      .form-actions, .expanded-actions {
+        padding-bottom: max(0px, env(safe-area-inset-bottom));
+      }
+    }
+  }
+  
+  /* For visual feedback when buttons are pressed on iOS */
+  .expanded-actions button:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+  }
+  
+  /* Make sure the close button doesn't get covered by the notch */
+  .close-expanded-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--bookly-accent);
+    color: white;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 10;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+  }
+  
+  .close-expanded-btn:active {
+    transform: scale(0.95);
+    background-color: var(--bookly-dark);
   }
