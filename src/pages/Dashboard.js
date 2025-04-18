@@ -18,12 +18,17 @@ const Dashboard = () => {
   const [recommendations, setRecommendations] = useState([]);
   const [recommendationError, setRecommendationError] = useState('');
   const [recommendationLimit, setRecommendationLimit] = useState(5);
-  const [showRecommendations, setShowRecommendations] = useState(true); // New state for toggling recommendations
+  const [showRecommendations, setShowRecommendations] = useState(true);
+  const [isLoadingRecommendations, setIsLoadingRecommendations] = useState(false);
   const navigate = useNavigate();
   const recommendationTimeout = useRef(null);
 
   useEffect(() => {
-    if (!auth.currentUser) return;
+    if (!auth.currentUser) {
+      navigate('/login');
+      return;
+    }
+    
     setLoading(true);
 
     const readBooksQuery = query(
@@ -68,15 +73,19 @@ const Dashboard = () => {
       unsubscribeRead();
       unsubscribeWishlist();
     };
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     if (recommendationTimeout.current) {
       clearTimeout(recommendationTimeout.current);
     }
 
-    if (books.length > 0) {
+    if (books.length > 0 && showRecommendations) {
       const bookTitles = books.map((book) => book.title);
+      
+      setIsLoadingRecommendations(true);
+      setRecommendationError('');
+      
       console.log('Fetching recommendations for books:', bookTitles, 'Limit:', recommendationLimit);
 
       recommendationTimeout.current = setTimeout(() => {
@@ -85,16 +94,18 @@ const Dashboard = () => {
             console.log('Setting recommendations:', recs);
             setRecommendations(recs);
             setRecommendationError('');
+            setIsLoadingRecommendations(false);
           })
           .catch((error) => {
             console.error('Recommendation error:', error);
             setRecommendationError('Failed to load recommendations. Please try again.');
+            setIsLoadingRecommendations(false);
           });
       }, 500);
     } else {
       setRecommendations([]);
       setRecommendationError('');
-      setRecommendationLimit(5);
+      setIsLoadingRecommendations(false);
     }
 
     return () => {
@@ -102,7 +113,7 @@ const Dashboard = () => {
         clearTimeout(recommendationTimeout.current);
       }
     };
-  }, [books, recommendationLimit]);
+  }, [books, recommendationLimit, showRecommendations]);
 
   const handleLoadMore = () => {
     setRecommendationLimit((prevLimit) => prevLimit + 5);
@@ -136,6 +147,26 @@ const Dashboard = () => {
   const handleBookAdded = () => {
     setShowBookForm(false);
   };
+
+  const handleRetryRecommendations = () => {
+    // Reset error state and retry
+    setRecommendationError('');
+    if (books.length > 0) {
+      const bookTitles = books.map((book) => book.title);
+      setIsLoadingRecommendations(true);
+      
+      getBookRecommendations(bookTitles, recommendationLimit)
+        .then((recs) => {
+          setRecommendations(recs);
+          setIsLoadingRecommendations(false);
+        })
+        .catch((error) => {
+          console.error('Retry recommendation error:', error);
+          setRecommendationError('Failed to load recommendations. Please try again.');
+          setIsLoadingRecommendations(false);
+        });
+    }
+  }
 
   return (
     <div className="dashboard">
@@ -202,8 +233,19 @@ const Dashboard = () => {
               </div>
               {showRecommendations && (
                 <>
-                  {recommendationError && <p className="error-message">{recommendationError}</p>}
-                  {recommendations.length > 0 ? (
+                  {isLoadingRecommendations ? (
+                    <div className="loading">Loading recommendations...</div>
+                  ) : recommendationError ? (
+                    <div className="recommendation-error">
+                      <p className="error-message">{recommendationError}</p>
+                      <button 
+                        className="retry-btn"
+                        onClick={handleRetryRecommendations}
+                      >
+                        Retry
+                      </button>
+                    </div>
+                  ) : recommendations.length > 0 ? (
                     <div>
                       <div className="books-container">
                         {recommendations.map((rec, index) => (
@@ -213,6 +255,10 @@ const Dashboard = () => {
                                 src={`https://covers.openlibrary.org/b/id/${rec.cover_id}-M.jpg`}
                                 alt={`${rec.title} cover`}
                                 className="recommendation-cover"
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.src = "https://via.placeholder.com/150x220?text=No+Cover";
+                                }}
                               />
                             ) : (
                               <div className="no-cover">No cover available</div>
@@ -243,6 +289,8 @@ const Dashboard = () => {
                         )}
                       </div>
                     </div>
+                  ) : books.length === 0 ? (
+                    <p>Add some books to get recommendations.</p>
                   ) : (
                     <p>No recommendations available.</p>
                   )}

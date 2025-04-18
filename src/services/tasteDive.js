@@ -1,7 +1,8 @@
 const TASTE_DIVE_API_KEY = process.env.REACT_APP_TASTE_DIVE_API_KEY || '1049527-DanailDa-36868088';
-const TASTE_DIVE_BASE_URL = '/api/similar';
+const API_BASE_URL = 'https://bookly-nmft.onrender.com'; // Your deployed server URL
+const TASTE_DIVE_BASE_URL = `${API_BASE_URL}/api/similar`;
 const OPEN_LIBRARY_BASE_URL = 'https://openlibrary.org';
-const LIBRE_TRANSLATE_BASE_URL = '/api/translate'; // Updated to use our proxy
+const LIBRE_TRANSLATE_BASE_URL = `${API_BASE_URL}/api/translate`; // Updated to use our deployed proxy
 
 const titleMap = {
     // International Classics

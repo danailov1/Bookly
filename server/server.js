@@ -12,10 +12,10 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-// Serve static files from the React app in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'build')));
-}
+// Basic health check route
+app.get('/', (req, res) => {
+  res.json({ status: 'Bookly API is running' });
+});
 
 // TasteDive API proxy endpoint
 app.get('/api/similar', async (req, res) => {
@@ -29,6 +29,8 @@ app.get('/api/similar', async (req, res) => {
       return res.status(400).json({ error: 'API key is required' });
     }
 
+    console.log(`Proxying request to TasteDive API: q=${query}, type=${type}, limit=${limit}`);
+    
     const response = await axios.get('https://tastedive.com/api/similar', {
       params: {
         q: query,
@@ -39,6 +41,7 @@ app.get('/api/similar', async (req, res) => {
       }
     });
 
+    console.log('TasteDive API response received');
     res.json(response.data);
   } catch (error) {
     console.error('Error fetching from TasteDive:', error.message);
@@ -58,6 +61,8 @@ app.post('/api/translate', async (req, res) => {
       return res.status(400).json({ error: 'Missing required parameters' });
     }
 
+    console.log(`Translating text from ${source} to ${target}`);
+
     const response = await axios.post('https://translate.argosopentech.com/translate', {
       q,
       source,
@@ -68,6 +73,7 @@ app.post('/api/translate', async (req, res) => {
       }
     });
 
+    console.log('Translation response received');
     res.json(response.data);
   } catch (error) {
     console.error('Error translating text:', error.message);
@@ -78,13 +84,7 @@ app.post('/api/translate', async (req, res) => {
   }
 });
 
-// Catch all route to serve the React app in production
-if (process.env.NODE_ENV === 'production') {
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
-  });
-}
-
+// Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
